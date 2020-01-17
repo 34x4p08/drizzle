@@ -71,12 +71,20 @@ class Drizzle {
       contractConfig,
       this.web3
     )
+
+    const state = this.store.getState()
+    const networkId = state.web3 && state.web3.networkId
+
+    const addressesToSync = contractConfig.networks[networkId].addressesToSync
+    const mockContractName = contractConfig.mockContractName
+
     const drizzleContract = new DrizzleContract(
       web3Contract,
       this.web3,
       contractConfig.contractName,
       this.store,
-      events
+      events,
+      { addressesToSync, mockContractName }
     )
 
     if (this.contracts[drizzleContract.contractName]) {
@@ -127,6 +135,15 @@ class Drizzle {
   findContractByAddress (address) {
     return this.contractList.find(contract => {
       return contract.address.toLowerCase() === address.toLowerCase()
+    })
+  }
+
+  findContractByAddressToSync (syncAddress) {
+    return this.contractList.find(contract => {
+      if (contract.contractArtifact.addressesToSync) {
+        return contract.contractArtifact.addressesToSync.map(a => a.toLowerCase()).includes(syncAddress.toLowerCase())
+      }
+      return contract.address.toLowerCase() === syncAddress.toLowerCase()
     })
   }
 

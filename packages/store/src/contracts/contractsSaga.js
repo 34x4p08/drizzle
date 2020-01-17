@@ -123,7 +123,7 @@ function * callSendContractTx ({
   }
 
   // Get name to mark as desynchronized on tx creation
-  const contractName = contract.contractName
+  const contractName = contract.contractArtifact.mockContractName || contract.contractName;
 
   // Create the transaction object and execute the tx.
   const txObject = yield call(contract.methods[fnName], ...args)
