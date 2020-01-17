@@ -156,13 +156,13 @@ function * processBlock ({ block, drizzle, web3, syncAlways }) {
       // Loop through txs looking for any contract address of interest
       for (var i = 0; i < txs.length; i++) {
         var from = txs[i].from || ''
-        var fromContract = drizzle.findContractByAddressToSync(from.toLowerCase())
+        var fromContract = drizzle.findContractByAddress(from.toLowerCase())
         if (fromContract) {
           yield put({ type: 'CONTRACT_SYNCING', contract: fromContract })
         }
 
         var to = txs[i].to || ''
-        var toContract = drizzle.findContractByAddressToSync(to.toLowerCase())
+        var toContract = drizzle.findContractByAddress(to.toLowerCase())
         if (toContract) {
           yield put({ type: 'CONTRACT_SYNCING', contract: toContract })
         }

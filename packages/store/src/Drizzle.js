@@ -134,16 +134,10 @@ class Drizzle {
 
   findContractByAddress (address) {
     return this.contractList.find(contract => {
-      return contract.address.toLowerCase() === address.toLowerCase()
-    })
-  }
-
-  findContractByAddressToSync (syncAddress) {
-    return this.contractList.find(contract => {
       if (contract.contractArtifact.addressesToSync) {
-        return contract.contractArtifact.addressesToSync.map(a => a.toLowerCase()).includes(syncAddress.toLowerCase())
+        return contract.contractArtifact.addressesToSync.map(a => a.toLowerCase()).includes(address.toLowerCase())
       }
-      return contract.address.toLowerCase() === syncAddress.toLowerCase()
+      return contract.address.toLowerCase() === address.toLowerCase()
     })
   }
 
